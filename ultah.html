@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎉</title>
+    <!-- Import Font Lucu -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #e8f0fe 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Halaman Pembuka / Welcome Gate */
+        #welcome-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffdeeb 0%, #cbe3db 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.8s ease;
+        }
+        .gate-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            max-width: 350px;
+            width: 85%;
+        }
+        .gate-card h2 {
+            font-family: 'Fredoka One', cursive;
+            color: #ff7675;
+            margin-bottom: 15px;
+        }
+        .btn-gate {
+            background: #ff7675;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 118, 117, 0.4);
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+        .btn-gate:hover {
+            transform: scale(1.05);
+        }
+
+        /* Konten Utama (Disembunyikan Dulu) */
+        .container {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 4px solid #fff;
+            animation: bounceIn 0.8s ease forwards;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #ff7675;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 0px #ffeaa7;
+        }
+        p {
+            color: #636e72;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+        .btn-surprise {
+            background: #fab1a0;
+            color: #d63031;
+            border: 2px dashed #d63031;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        .btn-surprise:hover {
+            background: #ffeaa7;
+            transform: rotate(-3deg) scale(1.05);
+        }
+        .hidden-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffeaa7;
+            border-radius: 15px;
+            animation: fadeIn 0.8s forwards;
+            color: #2d3436;
+            font-weight: bold;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HALAMAN PEMBUKA (Trik biar musik otomatis nyala) -->
+    <div id="welcome-gate">
+        <div class="gate-card">
+            <h2>Eh, Ada Paket! 📦</h2>
+            <p>Ada surat spesial buat kamu hari ini. Dibuka ya?</p>
+            <button class="btn-gate" onclick="mulaiWeb()">Buka Surat 💌</button>
+        </div>
+    </div>
+
+    <!-- KONTEN UTAMA WEBNYA -->
+    <div class="container" id="konten-utama">
+        <h1>Happy Birthday! 🎂</h1>
+        <p>Selamat ulang tahun ya! Semoga harimu penuh dengan makanan enak, tawa yang lepas, dan dapet banyak kado lucu! ✨</p>
+        
+        <button class="btn-surprise" onclick="bukaKejutan()">Klik di sini coba... 🎁</button>
+
+        <div id="pesanRahasia" class="hidden-message">
+            <p>Don't grow up too fast, it's a trap! Wkwk. Tetep jadi orang yang ceria ya! 🎉🥳</p>
+        </div>
+    </div>
+
+    <!-- AUDIO MUSIK (Ganti link src di bawah ini kalau mau pakai lagu lain) -->
+    <audio id="musikUltah" loop>
+        <source src="https://assets.codepen.io/25868/Happy+Birthday.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function mulaiWeb() {
+            // 1. Jalankan musik secara otomatis karena sudah ada interaksi klik
+            const musik = document.getElementById('musikUltah');
+            musik.play().catch(function(error) {
+                console.log("Musik gagal main otomatis karena aturan browser: ", error);
+            });
+
+            // 2. Sembunyikan halaman pembuka
+            const gate = document.getElementById('welcome-gate');
+            gate.style.opacity = '0';
+            setTimeout(() => {
+                gate.style.display = 'none';
+            }, 800);
+
+            // 3. Munculkan konten utama web ultahnya
+            const konten = document.getElementById('konten-utama');
+            konten.style.display = 'block';
+        }
+
+        function bukaKejutan() {
+            const pesan = document.getElementById('pesanRahasia');
+            pesan.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
